@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#153b35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="BizManager">
+  <title>BizManager | Manage. Track. Grow.</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="brand">BIZMANAGER</div>
+    <div class="tagline">Manage. Track. Grow.</div>
+  </div>
+  <button id="backupBtn" class="button light">Backup</button>
+</header>
+
+<main>
+  <section id="dashboard" class="view active">
+    <div class="welcome">
+      <div><h1>Business overview</h1><p id="todayLabel"></p></div>
+      <span class="offline-pill">● Offline-ready</span>
+    </div>
+    <div class="cards">
+      <article class="metric"><span>Sales today</span><strong id="salesToday">GH₵0.00</strong></article>
+      <article class="metric"><span>Purchases recorded</span><strong id="purchasesTotal">GH₵0.00</strong></article>
+      <article class="metric"><span>Expenses recorded</span><strong id="expensesTotal">GH₵0.00</strong></article>
+      <article class="metric"><span>Estimated gross profit</span><strong id="grossProfit">GH₵0.00</strong></article>
+      <article class="metric"><span>Products</span><strong id="productCount">0</strong></article>
+      <article class="metric"><span>Low-stock items</span><strong id="lowStockCount">0</strong></article>
+    </div>
+    <div class="panel">
+      <h2>Recent activity</h2>
+      <div id="recentActivity" class="empty">No transactions have been recorded yet.</div>
+    </div>
+    <p class="note">Figures are calculated from records entered in this device. Gross profit is sales revenue less the recorded cost of goods sold; it is not net profit.</p>
+  </section>
+
+  <section id="products" class="view">
+    <div class="section-heading"><div><h1>Products</h1><p>Manage your items and stock levels.</p></div></div>
+    <form id="productForm" class="panel form-grid">
+      <h2 class="full">Add a product</h2>
+      <label>Product name<input id="pName" required maxlength="80" placeholder="e.g. Liquid detergent"></label>
+      <label>Category<input id="pCategory" maxlength="50" placeholder="e.g. Cleaning"></label>
+      <label>Opening quantity<input id="pQty" type="number" min="0" step="0.01" value="0" required></label>
+      <label>Buying cost per unit (GH₵)<input id="pCost" type="number" min="0" step="0.01" value="0" required></label>
+      <label>Selling price per unit (GH₵)<input id="pPrice" type="number" min="0" step="0.01" value="0" required></label>
+      <label>Low-stock alert at<input id="pMin" type="number" min="0" step="0.01" value="5" required></label>
+      <button class="button primary full" type="submit">Save product</button>
+    </form>
+    <div class="panel"><h2>Product list</h2><div class="table-wrap"><table><thead><tr><th>Product</th><th>Stock</th><th>Cost</th><th>Selling price</th><th>Status</th></tr></thead><tbody id="productRows"></tbody></table></div></div>
+  </section>
+
+  <section id="purchases" class="view">
+    <div class="section-heading"><div><h1>Purchases</h1><p>Record stock bought for the business.</p></div></div>
+    <form id="purchaseForm" class="panel form-grid">
+      <h2 class="full">Record a purchase</h2>
+      <label class="full">Product<select id="purchaseProduct" required></select></label>
+      <label>Supplier<input id="purchaseSupplier" maxlength="80" placeholder="Supplier name"></label>
+      <label>Date<input id="purchaseDate" type="date" required></label>
+      <label>Quantity<input id="purchaseQty" type="number" min="0.01" step="0.01" required></label>
+      <label>Unit cost (GH₵)<input id="purchaseCost" type="number" min="0" step="0.01" required></label>
+      <label>Amount paid (GH₵)<input id="purchasePaid" type="number" min="0" step="0.01" required></label>
+      <label>Payment method<select id="purchaseMethod"><option>Cash</option><option>Mobile Money</option><option>Bank transfer</option><option>Credit</option></select></label>
+      <button class="button primary full" type="submit">Save purchase and update stock</button>
+    </form>
+    <div class="panel"><h2>Purchase history</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Balance</th></tr></thead><tbody id="purchaseRows"></tbody></table></div></div>
+  </section>
+
+  <section id="sales" class="view">
+    <div class="section-heading"><div><h1>Sales</h1><p>Record items sold and payments received.</p></div></div>
+    <form id="saleForm" class="panel form-grid">
+      <h2 class="full">Record a sale</h2>
+      <label class="full">Product<select id="saleProduct" required></select></label>
+      <label>Date<input id="saleDate" type="date" required></label>
+      <label>Quantity sold<input id="saleQty" type="number" min="0.01" step="0.01" required></label>
+      <label>Unit selling price (GH₵)<input id="salePrice" type="number" min="0" step="0.01" required></label>
+      <label>Customer<input id="saleCustomer" maxlength="80" placeholder="Optional"></label>
+      <label>Payment method<select id="saleMethod"><option>Cash</option><option>Mobile Money</option><option>Bank transfer</option><option>Credit</option></select></label>
+      <label>Amount received (GH₵)<input id="salePaid" type="number" min="0" step="0.01" required></label>
+      <button class="button primary full" type="submit">Save sale and update stock</button>
+    </form>
+    <div class="panel"><h2>Sales history</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Total</th><th>Received</th><th>Balance</th></tr></thead><tbody id="saleRows"></tbody></table></div></div>
+  </section>
+
+  <section id="expenses" class="view">
+    <div class="section-heading"><div><h1>Expenses</h1><p>Record running costs separately from stock purchases.</p></div></div>
+    <form id="expenseForm" class="panel form-grid">
+      <h2 class="full">Add an expense</h2>
+      <label>Description<input id="expenseDesc" required maxlength="100" placeholder="e.g. Transport"></label>
+      <label>Category<select id="expenseCategory"><option>Transport</option><option>Rent</option><option>Utilities</option><option>Packaging</option><option>Staff</option><option>Maintenance</option><option>Other</option></select></label>
+      <label>Date<input id="expenseDate" type="date" required></label>
+      <label>Amount (GH₵)<input id="expenseAmount" type="number" min="0.01" step="0.01" required></label>
+      <button class="button primary full" type="submit">Save expense</button>
+    </form>
+    <div class="panel"><h2>Expense history</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Amount</th></tr></thead><tbody id="expenseRows"></tbody></table></div></div>
+  </section>
+
+  <section id="reports" class="view">
+    <div class="section-heading"><div><h1>Reports & backup</h1><p>Review totals and protect business records.</p></div></div>
+    <div class="cards">
+      <article class="metric"><span>Total sales</span><strong id="reportSales">GH₵0.00</strong></article>
+      <article class="metric"><span>Total cost of goods sold</span><strong id="reportCogs">GH₵0.00</strong></article>
+      <article class="metric"><span>Gross profit</span><strong id="reportGross">GH₵0.00</strong></article>
+      <article class="metric"><span>Operating expenses</span><strong id="reportExpenses">GH₵0.00</strong></article>
+      <article class="metric"><span>Estimated net operating result</span><strong id="reportNet">GH₵0.00</strong></article>
+      <article class="metric"><span>Supplier balances</span><strong id="reportSupplierDebt">GH₵0.00</strong></article>
+    </div>
+    <div class="panel">
+      <h2>Data backup</h2>
+      <p>Export a backup regularly and keep a copy somewhere safe. Importing a backup replaces the records currently on this device.</p>
+      <div class="actions"><button class="button primary" id="exportBtn">Export backup</button><label class="button light file-button">Import backup<input id="importFile" type="file" accept="application/json"></label></div>
+      <p class="note">This starter version stores data on this device only. It does not synchronise between phones or computers.</p>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button data-view="dashboard" class="active"><span>⌂</span>Home</button>
+  <button data-view="products"><span>▦</span>Products</button>
+  <button data-view="purchases"><span>＋</span>Purchases</button>
+  <button data-view="sales"><span>↗</span>Sales</button>
+  <button data-view="expenses"><span>−</span>Expenses</button>
+  <button data-view="reports"><span>▤</span>Reports</button>
+</nav>
+<div id="toast" role="status" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

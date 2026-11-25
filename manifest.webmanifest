@@ -1,0 +1,10 @@
+{
+  "name": "BizManager",
+  "short_name": "BizManager",
+  "description": "Manage. Track. Grow.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f8f6",
+  "theme_color": "#153b35",
+  "orientation": "any"
+}
